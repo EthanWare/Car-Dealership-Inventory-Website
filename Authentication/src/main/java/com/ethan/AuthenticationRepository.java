@@ -1,6 +1,6 @@
 package com.ethan;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AuthenticationRepository extends CrudRepository<User, Integer> {
+public interface AuthenticationRepository extends JpaRepository<User, Integer> {
 }
