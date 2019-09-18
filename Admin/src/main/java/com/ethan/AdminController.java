@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
 
@@ -19,10 +18,10 @@ public class AdminController {
     AdminService service;
 
     //Create
-    @RequestMapping(value="/add", method=RequestMethod.POST)
+    @RequestMapping(value="/create", method=RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void addCar(@RequestBody Car car){
-        service.addCar(car);
+    public void createCar(@RequestBody Car car){
+        service.createCar(car);
     }
 
     //Read
@@ -31,28 +30,28 @@ public class AdminController {
     public List<Car> readAllCars(){
         return service.readAllCars();
     }
-    @RequestMapping(value="/read/{filter}", method=RequestMethod.GET)
+    @RequestMapping(value="/read/{column}/{filter}", method=RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<Car> readFilteredCars(@PathVariable("filter") String filter){
-        return service.readFilteredCars(filter);
+    public List<Car> readFilteredCars(@PathVariable("column") String column, @PathVariable("filter") String filter){
+        return service.readFilteredCars(column, filter);
     }
 
     //Update
-    @RequestMapping(value="/update/{id}", method=RequestMethod.PATCH)
+    @RequestMapping(value="/update", method=RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
-    public List<Car> updateCar(@PathVariable("id") int id){
-        return service.updateCar(id);
+    public void updateCar(@RequestBody Car car){
+        service.updateCar(car);
     }
     
     //Delete
     @RequestMapping(value="/delete", method=RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public List<Car> deleteAllCars(){
-        return service.deleteAllCars();
+    public void deleteAllCars(){
+        service.deleteAllCars();
     }
     @RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
-    public List<Car> deleteCar(@PathVariable("id") int id){
-        return service.deleteCar(id);
+    public void deleteCar(@PathVariable("id") int id){
+        service.deleteCar(id);
     }
 }
