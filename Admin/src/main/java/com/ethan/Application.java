@@ -1,4 +1,4 @@
-package com.ethan.Spring.Boot.Application;
+package com.ethan;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
