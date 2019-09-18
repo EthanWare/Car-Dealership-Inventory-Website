@@ -3,47 +3,102 @@ package com.ethan;
 import javax.persistence.*;
 
 @Entity
-public class User{
+public class Car{
     @Id
     private int id;
-    private String userName;
-    private String password;
-    private int isAdmin;
-    
+    private int year;
+    private String make;
+    private String model;
+    private String type;
+    private String color;
 
-    public User(int id, String userName, String password, int isAdmin) {
+    public Car(int id, int year, String make, String model, String type, String color) {
         this.id = id;
-        this.userName = userName;
-        this.password = password;
-        this.isAdmin = isAdmin;
-
-    }
-    
-    public User() {
+        this.year = year;
+        this.make = make;
+        this.model = model;
+        this.type = type;
+        this.color = color;
     }
 
-
-    public String getUserName() {
-        return userName;
+    public Car() {
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public int getId() {
+        return this.id;
     }
 
-    public String getPassword() {
-        return password;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public int getYear() {
+        return this.year;
     }
 
-    public int getIsAdmin() {
-        return isAdmin;
+    public void setYear(int year) {
+        this.year = year;
     }
 
-    public void setIsAdmin(int isAdmin) {
-        this.isAdmin = isAdmin;
+    public String getMake() {
+        return this.make;
+    }
+
+    public void setMake(String make) {
+        this.make = make;
+    }
+
+    public String getModel() {
+        return this.model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getType() {
+        return this.type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getColor() {
+        return this.color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public Car id(int id) {
+        this.id = id;
+        return this;
+    }
+
+    public Car year(int year) {
+        this.year = year;
+        return this;
+    }
+
+    public Car make(String make) {
+        this.make = make;
+        return this;
+    }
+
+    public Car model(String model) {
+        this.model = model;
+        return this;
+    }
+
+    public Car type(String type) {
+        this.type = type;
+        return this;
+    }
+
+    public Car color(String color) {
+        this.color = color;
+        return this;
     }
 }
