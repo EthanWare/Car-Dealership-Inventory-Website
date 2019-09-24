@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @RequestMapping(value="/cars")
 @RestController
@@ -19,20 +20,17 @@ public class AdminController {
 
     //Create
     @RequestMapping(value="/create", method=RequestMethod.POST)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createCar(@RequestBody Car car){
-        service.createCar(car);
+    public ResponseEntity<?> createCar(@RequestBody Car car){
+        return service.createCar(car);
     }
 
     //Read
     @RequestMapping(value="/read", method=RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public List<Car> readAllCars(){
+    public ResponseEntity<?> readAllCars(){
         return service.readAllCars();
     }
     @RequestMapping(value="/read/{column}/{filter}", method=RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public List<Car> readFilteredCars(@PathVariable("column") String column, @PathVariable("filter") String filter){
+    public ResponseEntity<?> readFilteredCars(@PathVariable("column") String column, @PathVariable("filter") String filter){
         return service.readFilteredCars(column, filter);
     }
 

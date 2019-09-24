@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Car{
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private int year;
     private String make;
