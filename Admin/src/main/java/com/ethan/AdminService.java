@@ -51,21 +51,46 @@ public class AdminService {
             return new ResponseEntity<String>("No cars exist", HttpStatus.NO_CONTENT);
         else{
             ArrayList<Car> cars = new ArrayList<>();
-            repo.findByColumnFilter(column, filter).forEach(cars::add);
+            switch(column){
+                case "year": repo.findByYear(filter).forEach(cars::add); break;
+                case "make": repo.findByMake(filter).forEach(cars::add); break;
+                case "model": repo.findByModel(filter).forEach(cars::add); break;
+                case "type": repo.findByType(filter).forEach(cars::add); break;
+                case "color": repo.findByColor(filter).forEach(cars::add); break;
+                default: return new ResponseEntity<String>("Wrong column name", HttpStatus.NO_CONTENT);
+            }
             return new ResponseEntity<List<Car>>(cars, HttpStatus.OK);
         }
     }
 
     //Update
-    public void updateCar(Car car){
+    public ResponseEntity<String> updateCar(Car car){
+        //check if the new car has any empty fields
+        if(car == null || car.getId() == 0 || car.getYear() == 0 || car.getMake() == "" || car.getModel() == "" || car.getType() == "" || car.getColor() == "")
+            return new ResponseEntity<String>("Column value empty", HttpStatus.NOT_ACCEPTABLE);
+        //check if the car exists in the database
+        if(!repo.existsById(car.getId()))
+            return new ResponseEntity<String>("Car does not exist", HttpStatus.NOT_FOUND);
+        
         repo.save(car);
+        return new ResponseEntity<String>("Car update successful", HttpStatus.OK);
     }
     
     //Delete
-    public void deleteAllCars(){
+    public ResponseEntity<String> deleteAllCars(){
+        //check for an empty database
+        if(repo.count() == 0)
+            return new ResponseEntity<String>("No cars exist", HttpStatus.NO_CONTENT);
+
         repo.deleteAll();
+        return new ResponseEntity<String>("All cars deleted successfully", HttpStatus.OK);
     }
-    public void deleteCar(int id){
+    public ResponseEntity<String> deleteCar(int id){
+        //check if the car exists in the database
+        if(!repo.existsById(id))
+            return new ResponseEntity<String>("Car does not exist", HttpStatus.NOT_FOUND);
+        
         repo.deleteById(id);
+        return new ResponseEntity<String>("Car delete successful", HttpStatus.OK);
     }
 }

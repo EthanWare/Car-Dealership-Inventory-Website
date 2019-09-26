@@ -1,15 +1,16 @@
 package com.ethan;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 
@@ -20,10 +21,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestMethodOrder(OrderAnnotation.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AdminControllerTests {
 	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
@@ -64,62 +65,111 @@ public class AdminControllerTests {
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 			.andExpect(jsonPath("$").exists());
 	}
-	/*
+	
 	@Test
 	@Order(5)
-	public void givenReadFilteredCar_whenCarsInDatabase_thenReadFilteredCarsSuccessful() throws Exception {
-		mock.perform(get("/read/make/Ford"))
+	public void givenReadCarsByYear_whenCarsInDatabase_thenReadCarsByYearSuccessful() throws Exception {
+		mock.perform(get("/cars/read/year/2005"))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 			.andExpect(jsonPath("$").exists());
 	}
 	
+	@Test
+	@Order(6)
+	public void givenReadCarsByMake_whenCarsInDatabase_thenReadCarsByMakeSuccessful() throws Exception {
+		mock.perform(get("/cars/read/make/Ford"))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+			.andExpect(jsonPath("$").exists());
+	}
 
+	@Test
+	@Order(7)
+	public void givenReadCarsByModel_whenCarsInDatabase_thenReadCarsByModelSuccessful() throws Exception {
+		mock.perform(get("/cars/read/model/Camry"))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+			.andExpect(jsonPath("$").exists());
+	}
 
+	@Test
+	@Order(8)
+	public void givenReadCarsByType_whenCarsInDatabase_thenReadCarsByTypeSuccessful() throws Exception {
+		mock.perform(get("/cars/read/type/Coupe"))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+			.andExpect(jsonPath("$").exists());
+	}
+
+	@Test
+	@Order(9)
+	public void givenReadCarsByColor_whenCarsInDatabase_thenReadCarsByColorSuccessful() throws Exception {
+		mock.perform(get("/cars/read/color/Red"))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+			.andExpect(jsonPath("$").exists());
+	}
+
+	@Test
+	@Order(10)
+	public void givenUpdateCar_whenCarAlreadyInDatabaseAndCarHasNoNullFields_thenUpdateCarSuccessful() throws Exception {
+		mock.perform(put("/cars/update").contentType(MediaType.APPLICATION_JSON_UTF8)
+		.content(OBJECT_MAPPER.writeValueAsString(new Car(1, 1969, "Dodge", "Charger", "Coupe", "Orange"))))
+		.andExpect(status().isOk());
+	}
+	
+	@Test
+	@Order(11)
+	public void givenUpdateCar_whenCarDoesNotExistInDatabaseAndCarHasNoNullFields_thenUpdateCarFails() throws Exception {
+		mock.perform(put("/cars/update").contentType(MediaType.APPLICATION_JSON_UTF8)
+		.content(OBJECT_MAPPER.writeValueAsString(new Car(200, 1969, "Dodge", "Charger", "Coupe", "Orange"))))
+		.andExpect(status().isNotFound());
+	}
+
+	@Test
+	@Order(12)
+	public void givenUpdateCar_whenCarAlreadyInDatabaseAndCarHasNullFields_thenUpdateCarFails() throws Exception {
+		mock.perform(put("/cars/update").contentType(MediaType.APPLICATION_JSON_UTF8)
+		.content(OBJECT_MAPPER.writeValueAsString(new Car(7, 1969, "Dodge", "", "Coupe", "Orange"))))
+		.andExpect(status().isNotAcceptable());
+	}
+
+	@Test
+	@Order(13)
+	public void givenDeleteCarById_whenCarsInDatabase_thenDeleteCarByIdSuccessful() throws Exception {
+		mock.perform(delete("/cars/delete/3"))
+		.andExpect(status().isOk());
+	}
+
+	@Test
+	@Order(14)
+	public void givenDeleteCarById_whenNoCarsInDatabase_thenDeleteCarByIdFails() throws Exception {
+		mock.perform(delete("/cars/delete/3"))
+		.andExpect(status().isNotFound());
+	}
 
 	
 	@Test
-	@Order(10)
+	@Order(15)
+	public void givenDeleteAllCars_whenCarsInDatabase_thenDeleteAllCarsSuccessful() throws Exception {
+		mock.perform(delete("/cars/delete"))
+		.andExpect(status().isOk());
+	}
+	/*
+	@Test
+	@Order(16)
+	public void givenDeleteAllCars_whenNoCarsInDatabase_thenDeleteAllCarsFails() throws Exception {
+		mock.perform(delete("/cars/delete"))
+		.andExpect(status().isNoContent());
+	}
+
+	@Test
+	@Order(17)
 	public void givenReadCars_whenNoCarsInDatabase_thenReadCarsFails() throws Exception {
 		mock.perform(get("/cars/read").contentType(MediaType.APPLICATION_JSON_UTF8))
 			.andExpect(status().isNoContent())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 			.andExpect(jsonPath("$").doesNotExist());
-	}
-	*/
-
-
-
-
-
-
-
-	/*
-	@Test
-	public void givenUser_whenAuthenticate_thenReturn0() throws Exception {
-		mock.perform(post("/authenticate").contentType(MediaType.APPLICATION_JSON_UTF8)
-			.content(OBJECT_MAPPER.writeValueAsString(new User(0,"Ethan","pass",0))))
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-			.andExpect(content().string("0"));
-	}
-
-	@Test
-	public void givenAdmin_whenAuthenticate_thenReturn1() throws Exception {
-		mock.perform(post("/authenticate").contentType(MediaType.APPLICATION_JSON_UTF8)
-			.content(OBJECT_MAPPER.writeValueAsString(new User(0,"admin","admin",1))))
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-			.andExpect(content().string("1"));
-	}
-
-	@Test
-	public void givenNonUser_whenAuthenticate_thenReturnNegative1() throws Exception {
-		mock.perform(post("/authenticate").contentType(MediaType.APPLICATION_JSON_UTF8)
-			.content(OBJECT_MAPPER.writeValueAsString(new User(0,"Not a User","wrong",1))))
-			.andExpect(status().isOk())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-			.andExpect(content().string("-1"));
-	}
-	*/
+	}*/
 }

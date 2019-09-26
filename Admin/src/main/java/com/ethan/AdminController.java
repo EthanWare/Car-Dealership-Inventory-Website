@@ -36,20 +36,17 @@ public class AdminController {
 
     //Update
     @RequestMapping(value="/update", method=RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.OK)
-    public void updateCar(@RequestBody Car car){
-        service.updateCar(car);
+    public ResponseEntity<?> updateCar(@RequestBody Car car){
+        return service.updateCar(car);
     }
     
     //Delete
     @RequestMapping(value="/delete", method=RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteAllCars(){
-        service.deleteAllCars();
+    public ResponseEntity<?> deleteAllCars(){
+        return service.deleteAllCars();
     }
     @RequestMapping(value="/delete/{id}", method=RequestMethod.DELETE)
-    @ResponseStatus(HttpStatus.OK)
-    public void deleteCar(@PathVariable("id") int id){
-        service.deleteCar(id);
+    public ResponseEntity<?> deleteCar(@PathVariable("id") int id){
+        return service.deleteCar(id);
     }
 }
