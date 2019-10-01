@@ -1,17 +1,14 @@
 package com.ethan;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-
+import org.junit.*;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.junit4.SpringRunner;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -20,54 +17,63 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-@ExtendWith(SpringExtension.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AdminControllerTests {
 	private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
 	@Autowired
 	private MockMvc mock;
 
+	@Transactional
 	@Test
-	@Order(1)
 	public void givenCreateCar_whenCarNotInDatabaseAndCarHasNoNullFields_thenCarCreatedSuccessful()
 			throws Exception {
 		mock.perform(post("/cars/create").contentType(MediaType.APPLICATION_JSON_UTF8)
-		.content(OBJECT_MAPPER.writeValueAsString(new Car(1,2000,"Dodge","Cummins","Truck","White"))))
-		.andExpect(status().isCreated());
+			.content(OBJECT_MAPPER.writeValueAsString(new Car(1,2000,"Dodge","Cummins","Truck","White"))))
+			.andExpect(status().isCreated());
 	}
 
-	
+	@Transactional
 	@Test
-	@Order(2)
 	public void givenCreateCar_whenCarAlreadyInDatabaseAndCarHasNoNullFields_thenCarCreatedFails() throws Exception {
 		mock.perform(post("/cars/create").contentType(MediaType.APPLICATION_JSON_UTF8)
-		.content(OBJECT_MAPPER.writeValueAsString(new Car(1, 2005, "Honda", "Accord", "Coupe", "Grey"))))
-		.andExpect(status().isConflict());
+			.content(OBJECT_MAPPER.writeValueAsString(new Car(1, 2005, "Honda", "Accord", "Coupe", "Grey"))))
+			.andExpect(status().isConflict());
 	}
 	
+	@Transactional
 	@Test
-	@Order(3)
 	public void givenCreateCar_whenCarNotInDatabaseAndCarisNull_thenCarCreatedFails() throws Exception {
 		mock.perform(post("/cars/create").contentType(MediaType.APPLICATION_JSON_UTF8)
-		.content(OBJECT_MAPPER.writeValueAsString(new Car())))
-		.andExpect(status().isNotAcceptable());
+			.content(OBJECT_MAPPER.writeValueAsString(new Car())))
+			.andExpect(status().isNotAcceptable());
 	}
 	
+	@Transactional
 	@Test
-	@Order(4)
 	public void givenReadCars_whenCarsInDatabase_thenReadCarsSuccessful() throws Exception {
-		mock.perform(get("/cars/read").contentType(MediaType.APPLICATION_JSON_UTF8))
+		mock.perform(get("/cars/read"))
 			.andExpect(status().isOk())
 			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 			.andExpect(jsonPath("$").exists());
 	}
-	
+
+	@Transactional
 	@Test
-	@Order(5)
+	public void givenReadCars_whenNoCarsInDatabase_thenReadCarsFails() throws Exception {
+		//delete all cars before test
+		mock.perform(delete("/cars/delete"))
+			.andExpect(status().isOk());
+
+		mock.perform(get("/cars/read"))
+			.andExpect(status().isNoContent())
+			.andExpect(content().string("No cars exist"));
+	}
+	
+	@Transactional
+	@Test
 	public void givenReadCarsByYear_whenCarsInDatabase_thenReadCarsByYearSuccessful() throws Exception {
 		mock.perform(get("/cars/read/year/2005"))
 			.andExpect(status().isOk())
@@ -75,8 +81,8 @@ public class AdminControllerTests {
 			.andExpect(jsonPath("$").exists());
 	}
 	
+	@Transactional
 	@Test
-	@Order(6)
 	public void givenReadCarsByMake_whenCarsInDatabase_thenReadCarsByMakeSuccessful() throws Exception {
 		mock.perform(get("/cars/read/make/Ford"))
 			.andExpect(status().isOk())
@@ -84,8 +90,8 @@ public class AdminControllerTests {
 			.andExpect(jsonPath("$").exists());
 	}
 
+	@Transactional
 	@Test
-	@Order(7)
 	public void givenReadCarsByModel_whenCarsInDatabase_thenReadCarsByModelSuccessful() throws Exception {
 		mock.perform(get("/cars/read/model/Camry"))
 			.andExpect(status().isOk())
@@ -93,8 +99,8 @@ public class AdminControllerTests {
 			.andExpect(jsonPath("$").exists());
 	}
 
+	@Transactional
 	@Test
-	@Order(8)
 	public void givenReadCarsByType_whenCarsInDatabase_thenReadCarsByTypeSuccessful() throws Exception {
 		mock.perform(get("/cars/read/type/Coupe"))
 			.andExpect(status().isOk())
@@ -102,8 +108,8 @@ public class AdminControllerTests {
 			.andExpect(jsonPath("$").exists());
 	}
 
+	@Transactional
 	@Test
-	@Order(9)
 	public void givenReadCarsByColor_whenCarsInDatabase_thenReadCarsByColorSuccessful() throws Exception {
 		mock.perform(get("/cars/read/color/Red"))
 			.andExpect(status().isOk())
@@ -111,65 +117,63 @@ public class AdminControllerTests {
 			.andExpect(jsonPath("$").exists());
 	}
 
+	@Transactional
 	@Test
-	@Order(10)
 	public void givenUpdateCar_whenCarAlreadyInDatabaseAndCarHasNoNullFields_thenUpdateCarSuccessful() throws Exception {
 		mock.perform(put("/cars/update").contentType(MediaType.APPLICATION_JSON_UTF8)
-		.content(OBJECT_MAPPER.writeValueAsString(new Car(1, 1969, "Dodge", "Charger", "Coupe", "Orange"))))
-		.andExpect(status().isOk());
+			.content(OBJECT_MAPPER.writeValueAsString(new Car(1, 1969, "Dodge", "Charger", "Coupe", "Orange"))))
+			.andExpect(status().isOk());
 	}
-	
+
+	@Transactional
 	@Test
-	@Order(11)
 	public void givenUpdateCar_whenCarDoesNotExistInDatabaseAndCarHasNoNullFields_thenUpdateCarFails() throws Exception {
 		mock.perform(put("/cars/update").contentType(MediaType.APPLICATION_JSON_UTF8)
-		.content(OBJECT_MAPPER.writeValueAsString(new Car(200, 1969, "Dodge", "Charger", "Coupe", "Orange"))))
-		.andExpect(status().isNotFound());
+			.content(OBJECT_MAPPER.writeValueAsString(new Car(200, 1111, "Dodge", "Caaa", "Coupe", "aitoi448sdfnd"))))
+			.andExpect(status().isNotFound());
 	}
 
+	@Transactional
 	@Test
-	@Order(12)
 	public void givenUpdateCar_whenCarAlreadyInDatabaseAndCarHasNullFields_thenUpdateCarFails() throws Exception {
 		mock.perform(put("/cars/update").contentType(MediaType.APPLICATION_JSON_UTF8)
-		.content(OBJECT_MAPPER.writeValueAsString(new Car(7, 1969, "Dodge", "", "Coupe", "Orange"))))
-		.andExpect(status().isNotAcceptable());
+			.content(OBJECT_MAPPER.writeValueAsString(new Car(7, 1969, "Dodge", "", "Coupe", "Orange"))))
+			.andExpect(status().isNotAcceptable());
 	}
 
+	@Transactional
 	@Test
-	@Order(13)
 	public void givenDeleteCarById_whenCarsInDatabase_thenDeleteCarByIdSuccessful() throws Exception {
 		mock.perform(delete("/cars/delete/3"))
-		.andExpect(status().isOk());
+			.andExpect(status().isOk());
 	}
 
+	@Transactional
 	@Test
-	@Order(14)
 	public void givenDeleteCarById_whenNoCarsInDatabase_thenDeleteCarByIdFails() throws Exception {
+		//delete all cars before test
+		mock.perform(delete("/cars/delete"))
+			.andExpect(status().isOk());
+
 		mock.perform(delete("/cars/delete/3"))
-		.andExpect(status().isNotFound());
+			.andExpect(status().isNotFound());
 	}
 
-	
+	@Transactional
 	@Test
-	@Order(15)
 	public void givenDeleteAllCars_whenCarsInDatabase_thenDeleteAllCarsSuccessful() throws Exception {
 		mock.perform(delete("/cars/delete"))
-		.andExpect(status().isOk());
+			.andExpect(status().isOk());
 	}
-	/*
+	
+	@Transactional
 	@Test
-	@Order(16)
 	public void givenDeleteAllCars_whenNoCarsInDatabase_thenDeleteAllCarsFails() throws Exception {
+		//delete all cars before test
 		mock.perform(delete("/cars/delete"))
-		.andExpect(status().isNoContent());
-	}
+			.andExpect(status().isOk());
 
-	@Test
-	@Order(17)
-	public void givenReadCars_whenNoCarsInDatabase_thenReadCarsFails() throws Exception {
-		mock.perform(get("/cars/read").contentType(MediaType.APPLICATION_JSON_UTF8))
-			.andExpect(status().isNoContent())
-			.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-			.andExpect(jsonPath("$").doesNotExist());
-	}*/
+		mock.perform(delete("/cars/delete"))
+			.andExpect(status().isNoContent());
+	}
 }
