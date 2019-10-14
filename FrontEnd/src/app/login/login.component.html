@@ -1,6 +1,11 @@
-<h5>Log In</h5>
-<label><input [(ngModel)]="userName" placeholder="User Name"/></label>
-<label><input [(ngModel)]="password" placeholder="Password"/></label>
-<button type="button" (click)="login(userName, password)">Submit</button>
+<h1>Log In</h1>
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+    <label><input type="text" formControlName="userName" placeholder="User Name"/></label>
+    <label><input type="text" formControlName="password" placeholder="Password"/></label>
+    <button type="submit">Submit</button>
+
+</form>
 
 <nav><a routerLink="/signup">Sign Up</a></nav>
