@@ -51,7 +51,7 @@ public class AdminService {
             return new ResponseEntity<String>("No cars exist", HttpStatus.NO_CONTENT);
         else{
             ArrayList<Car> cars = new ArrayList<>();
-            switch(column){
+            switch(column.toLowerCase()){ 
                 case "year": repo.findByYear(filter).forEach(cars::add); break;
                 case "make": repo.findByMake(filter).forEach(cars::add); break;
                 case "model": repo.findByModel(filter).forEach(cars::add); break;
