@@ -19,19 +19,19 @@ public class AdminService {
         repo.findAll().forEach(cars::add);
         //check if any fields are null
         if(car == null || car.getId() == 0 || car.getYear() == 0 || car.getMake() == "" || car.getModel() == "" || car.getType() == "" || car.getColor() == "")
-            return new ResponseEntity<String>("Car creation unsuccessful: Car contains an empty field", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<String>("{\"response\": \"Car creation unsuccessful: Car contains an empty field\"}", HttpStatus.NOT_ACCEPTABLE);
         
         for(Car c: cars){
             //check if the car already exist in the database
             if(c.getYear() == car.getYear() && c.getMake().equals(car.getMake()) && c.getModel().equals(car.getModel()) && c.getType().equals(car.getType()) && c.getColor().equals(car.getColor()) )
-                return new ResponseEntity<String>("Car creation unsuccessful: Car already exists", HttpStatus.CONFLICT);
+                return new ResponseEntity<String>("{\"response\": \"Car creation unsuccessful: Car already exists\"}", HttpStatus.CONFLICT);
             //auto-increment id based on database
             if(c.getId() == car.getId())
             car.setId(c.getId() + 1);
         }
 
         repo.save(car);
-        return new ResponseEntity<String>("Car creation successful", HttpStatus.CREATED);
+        return new ResponseEntity<String>("{\"response\": \"Car creation successful\"}", HttpStatus.CREATED);
     }
 
     //Read

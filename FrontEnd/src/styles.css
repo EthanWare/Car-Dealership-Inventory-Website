@@ -1,1 +1,41 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* * {border: 3px solid green;} */
+
+h2, label, body, form {
+    margin: 20px auto;
+    width: auto;
+    padding: 10px;
+    text-align: center;
+  }
+
+table {
+    margin: 20px auto;
+    width: auto;
+    text-align: center;
+}
+
+th {
+    margin: 20px auto;
+    width: auto;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+td {
+    padding: 2px 5px;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+
+.message {
+    margin: 20px auto;
+    color: red;
+}

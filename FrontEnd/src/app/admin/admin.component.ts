@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../message.service';
 
 import { Car } from '../Car';
-import { AdminService } from '../admin.service';
+import { DataService } from '../data.service';
 
 @Component({
   selector: 'app-admin',
@@ -12,6 +12,7 @@ import { AdminService } from '../admin.service';
 export class AdminComponent implements OnInit {
   cars: Car[];
 
+  //values for filtering results
   searchColumn: string;
   columnOptions = [
     {name: "Year", value: "year"},
@@ -23,10 +24,18 @@ export class AdminComponent implements OnInit {
   searchValue: string;
   orderByOption: string;
 
-  constructor(private messageService: MessageService, private adminService: AdminService) { }
+  //values for adding a car
+  addCar: boolean;
+  newCarYear: string;
+  newCarMake: string;
+  newCarModel: string;
+  newCarType: string;
+  newCarColor: string;
+
+  constructor(private messageService: MessageService, private dataService: DataService) { }
 
   ngOnInit() {
-    this.messageService.clear;
+    this.messageService.clear();
 
     //set default search column and order by drop down selectors
     this.orderByOption = this.columnOptions[0].name;
@@ -36,17 +45,17 @@ export class AdminComponent implements OnInit {
     this.getAllCars();
   }
 
+
   getAllCars() {
-    this.adminService.readAllCars().subscribe(result => {
+    this.dataService.getAllCars().subscribe(result => {
       this.cars = result;
       this.order();
     });
   }
-
   
-  searchColumnByValue() {
+  getFilteredCars() {
     if(this.searchValue !== "") {
-      this.adminService.readFilteredCars(this.searchColumn, this.searchValue).subscribe(result => {
+      this.dataService.getFilteredCars(this.searchColumn, this.searchValue).subscribe(result => {
         this.cars = result;
         this.order();
       });
@@ -56,92 +65,42 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  // createCar() {
+
+  // }
+
+
   order() {
-    switch(this.orderByOption){
-      case "Year":
-        this.cars.sort(this.compareByYear);
-        break;
-      case "Make":
-        this.cars.sort(this.compareByMake);
-        break;
-      case "Model":
-        this.cars.sort(this.compareByModel);
-        break;
-      case "Type":
-        this.cars.sort(this.compareByType);
-        break;
-      case "Color":
-        this.cars.sort(this.compareByColor);
-        break;
-    }
+    this.dataService.order(this.cars, this.orderByOption);
   }
 
-  //compares year greatest to least
-  compareByYear(a: Car, b: Car) {
-    let comparison = 0;
-
-    if (a.year < b.year) {
-      comparison = 1;
-    } else if (a.year > b.year) {
-      comparison = -1;
-    }
-
-    return comparison;
+  showAddCar() {
+    this.addCar = true;
   }
 
-  //compares make in alphabetic order
-  compareByMake(a, b) {
-    let comparison = 0;
-
-    if (a.make > b.make) {
-      comparison = 1;
-    } else if (a.make < b.make) {
-      comparison = -1;
+  addNewCarFormSubmit() {
+    var newCar = {
+      id: 1,
+      year: this.newCarYear,
+      make: this.newCarMake,
+      model: this.newCarModel,
+      type: this.newCarType,
+      color: this.newCarColor
     }
 
-    return comparison;
+    this.dataService.createCar(newCar).subscribe(result => {
+      this.getAllCars();
+    });
+    this.closeAddCar();
   }
 
-  //compares model in alphabetic order
-  compareByModel(a, b) {
-    let comparison = 0;
-
-    if (a.model > b.model) {
-      comparison = 1;
-    } else if (a.model < b.model) {
-      comparison = -1;
-    }
-
-    return comparison;
-  }
-
-  //compares type in alphabetic order
-  compareByType(a, b) {
-    let comparison = 0;
-
-    if (a.type > b.type) {
-      comparison = 1;
-    } else if (a.type < b.type) {
-      comparison = -1;
-    }
-
-    return comparison;
-  }
-
-  //compares color in alphabetic order
-  compareByColor(a, b) {
-    let comparison = 0;
-
-    if (a.color > b.color) {
-      comparison = 1;
-    } else if (a.color < b.color) {
-      comparison = -1;
-    }
-
-    return comparison;
+  closeAddCar() {
+    this.addCar = false;
   }
 
 }
+
+
 
 
 

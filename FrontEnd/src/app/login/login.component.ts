@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService, private router: Router, private messageService: MessageService) { }
 
   ngOnInit() {
-    this.messageService.clear;
+    this.messageService.clear();
   }
 
   onSubmit() {
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
         this.router.navigateByUrl('admin');
       }
       else {
-        this.messageService.set('The User Name or Password is incorrect');
+        this.messageService.set('User Name or Password is incorrect');
       }
     });
   }

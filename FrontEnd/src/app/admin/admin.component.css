@@ -1,0 +1,14 @@
+.addCar {
+    margin: auto;
+    width: auto;
+    padding: 10px;
+    text-align: center;
+}
+
+.createCar {
+    width:80px;
+}
+
+.update {
+    padding: 2px 5px;
+}

@@ -1,6 +1,4 @@
-<body class="center">
-
-<h2 class="center">Admin</h2>
+<h2>Admin</h2>
 <label>Search Column
     <select [(ngModel)]="searchColumn">
         <option *ngFor="let o of columnOptions">
@@ -10,7 +8,7 @@
 </label>
 
 <label>Search
-    <input type="text" [(ngModel)]="searchValue" (change)="searchColumnByValue()">
+    <input type="text" [(ngModel)]="searchValue" (change)="getFilteredCars()">
 </label>
 
 <label>Order By
@@ -20,6 +18,20 @@
         </option>
     </select>
 </label>
+
+<!-- <nav class="addCar"><a routerLink="/addCar">Add Car</a></nav> -->
+
+<button (click)="showAddCar()">Add Car</button>
+<form *ngIf="addCar === true" (ngSubmit)="addNewCarFormSubmit()"><table>
+    <tr>
+        <td>Year <input class="createCar" type="text" [(ngModel)]="newCarYear" name="newCarYear"></td>
+        <td>Make <input class="createCar" type="text" [(ngModel)]="newCarMake" name="newCarMake"></td>
+        <td>Model <input class="createCar" type="text" [(ngModel)]="newCarModel" name="newCarModel"></td>
+        <td>Type <input class="createCar" type="text" [(ngModel)]="newCarType" name="newCarType"></td>
+        <td>Color <input class="createCar" type="text" [(ngModel)]="newCarColor" name="newCarColor"></td>
+        <td><input type=submit value="Add Car"> <input type=button value="Close" (click)=closeAddCar()></td>
+    </tr>
+</table></form>
 
 <table border="1">
     <tr>
@@ -36,7 +48,7 @@
         <td>{{car.model}}</td>
         <td>{{car.type}}</td>
         <td>{{car.color}}</td>
-        Update
+        <nav class="update"><a routerLink="/update">Update</a></nav>
     </tr>
 </table>
 
@@ -65,5 +77,3 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table> -->
-
-</body>
