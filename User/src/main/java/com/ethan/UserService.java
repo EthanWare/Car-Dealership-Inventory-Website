@@ -16,7 +16,7 @@ public class UserService {
     public ResponseEntity<?> readAllCars(){
         //check for an empty database
         if(repo.count() == 0)
-            return new ResponseEntity<String>("No cars exist", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>("{\"response\": \"No cars exist\"}", HttpStatus.NO_CONTENT);
         else{
             ArrayList<Car> cars = new ArrayList<>();
             repo.findAll().forEach(cars::add);
@@ -26,7 +26,7 @@ public class UserService {
     public ResponseEntity<?> readFilteredCars(String column, String filter){
         //check for an empty database
         if(repo.count() == 0)
-            return new ResponseEntity<String>("No cars exist", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<String>("{\"response\": \"No cars exist\"}", HttpStatus.NO_CONTENT);
         else{
             ArrayList<Car> cars = new ArrayList<>();
             switch(column){
@@ -35,7 +35,7 @@ public class UserService {
                 case "model": repo.findByModel(filter).forEach(cars::add); break;
                 case "type": repo.findByType(filter).forEach(cars::add); break;
                 case "color": repo.findByColor(filter).forEach(cars::add); break;
-                default: return new ResponseEntity<String>("Wrong column name", HttpStatus.NO_CONTENT);
+                default: return new ResponseEntity<String>("{\"response\": \"Wrong column name\"}", HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<List<Car>>(cars, HttpStatus.OK);
         }
