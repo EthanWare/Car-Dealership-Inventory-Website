@@ -34,6 +34,7 @@ export class AdminComponent implements OnInit {
   ]
   searchValue: string;
   orderByOption: string;
+  reverseOrder: boolean = false;
 
   //value for updating car
   showUpdateCarId: number;
@@ -63,7 +64,18 @@ export class AdminComponent implements OnInit {
 
   //data functions
   order() {
-    this.dataService.order(this.cars, this.orderByOption);
+    if(this.reverseOrder === true)
+      this.dataService.reverseOrder(this.cars, this.orderByOption);
+    else
+      this.dataService.order(this.cars, this.orderByOption);
+  }
+  reverseOrderCheckbox() {
+    if(this.reverseOrder === false)
+      this.reverseOrder = true;
+    else
+      this.reverseOrder = false;
+
+    this.order();
   }
   getAllCars() {
     this.dataService.getAllCars().subscribe(result => {

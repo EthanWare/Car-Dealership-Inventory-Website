@@ -71,6 +71,25 @@ export class DataService {
         break;
     }
   }
+  reverseOrder(cars: Car[], orderByOption: string) {
+    switch(orderByOption){
+      case "Year":
+        cars.sort(this.reverseCompareByYear);
+        break;
+      case "Make":
+        cars.sort(this.reverseCompareByMake);
+        break;
+      case "Model":
+        cars.sort(this.reverseCompareByModel);
+        break;
+      case "Type":
+        cars.sort(this.reverseCompareByType);
+        break;
+      case "Color":
+        cars.sort(this.reverseCompareByColor);
+        break;
+    }
+  }
 
   //compares year greatest to least
   compareByYear(a, b) {
@@ -79,6 +98,18 @@ export class DataService {
     if (a.year < b.year) {
       comparison = 1;
     } else if (a.year > b.year) {
+      comparison = -1;
+    }
+
+    return comparison;
+  }
+  //compares year least to greatest
+  reverseCompareByYear(a, b) {
+    let comparison = 0;
+
+    if (a.year > b.year) {
+      comparison = 1;
+    } else if (a.year < b.year) {
       comparison = -1;
     }
 
@@ -97,6 +128,18 @@ export class DataService {
 
     return comparison;
   }
+  //compares make in reverse alphabetic order
+  reverseCompareByMake(a, b) {
+    let comparison = 0;
+
+    if (a.make < b.make) {
+      comparison = 1;
+    } else if (a.make > b.make) {
+      comparison = -1;
+    }
+
+    return comparison;
+  }
 
   //compares model in alphabetic order
   compareByModel(a, b) {
@@ -105,6 +148,18 @@ export class DataService {
     if (a.model > b.model) {
       comparison = 1;
     } else if (a.model < b.model) {
+      comparison = -1;
+    }
+
+    return comparison;
+  }
+  //compares model in reverse alphabetic order
+  reverseCompareByModel(a, b) {
+    let comparison = 0;
+
+    if (a.model < b.model) {
+      comparison = 1;
+    } else if (a.model > b.model) {
       comparison = -1;
     }
 
@@ -123,6 +178,18 @@ export class DataService {
 
     return comparison;
   }
+  //compares type in reverse alphabetic order
+  reverseCompareByType(a, b) {
+    let comparison = 0;
+
+    if (a.type < b.type) {
+      comparison = 1;
+    } else if (a.type > b.type) {
+      comparison = -1;
+    }
+
+    return comparison;
+  }
 
   //compares color in alphabetic order
   compareByColor(a, b) {
@@ -131,6 +198,18 @@ export class DataService {
     if (a.color > b.color) {
       comparison = 1;
     } else if (a.color < b.color) {
+      comparison = -1;
+    }
+
+    return comparison;
+  }
+  //compares color in reverse alphabetic order
+  reverseCompareByColor(a, b) {
+    let comparison = 0;
+
+    if (a.color < b.color) {
+      comparison = 1;
+    } else if (a.color > b.color) {
       comparison = -1;
     }
 

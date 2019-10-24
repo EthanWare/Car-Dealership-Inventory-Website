@@ -19,7 +19,10 @@
     </select>
 </label>
 
-<!-- <nav class="addCar"><a routerLink="/addCar">Add Car</a></nav> -->
+<label>Reverse Order:
+    <input type="checkbox" [(ngModel)]="reverseOrder" (click)="reverseOrderCheckbox()">
+</label>
+
 
 <button (click)="showAddCar()">Add Car</button>
 <form *ngIf="addCar === true" [formGroup]="addCarForm" (ngSubmit)="addNewCarFormSubmit()"><table>
