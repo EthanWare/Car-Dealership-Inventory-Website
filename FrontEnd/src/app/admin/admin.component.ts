@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../message.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 import { Car } from '../Car';
 import { DataService } from '../data.service';
@@ -11,6 +12,16 @@ import { DataService } from '../data.service';
 })
 export class AdminComponent implements OnInit {
   cars: Car[];
+
+  //values for adding a car
+  addCar: boolean;
+  addCarForm = new FormGroup({
+    newCarYear: new FormControl(''),
+    newCarMake: new FormControl(''),
+    newCarModel: new FormControl(''),
+    newCarType: new FormControl(''),
+    newCarColor: new FormControl('')
+  });
 
   //values for filtering results
   searchColumn: string;
@@ -24,16 +35,19 @@ export class AdminComponent implements OnInit {
   searchValue: string;
   orderByOption: string;
 
-  //values for adding a car
-  addCar: boolean;
-  newCarYear: string;
-  newCarMake: string;
-  newCarModel: string;
-  newCarType: string;
-  newCarColor: string;
+  //value for updating car
+  showUpdateCarId: number;
+  updateCarForm = new FormGroup({
+    updateYear: new FormControl(''),
+    updateMake: new FormControl(''),
+    updateModel: new FormControl(''),
+    updateType: new FormControl(''),
+    updateColor: new FormControl('')
+  });
+
+
 
   constructor(private messageService: MessageService, private dataService: DataService) { }
-
   ngOnInit() {
     this.messageService.clear();
 
@@ -46,13 +60,17 @@ export class AdminComponent implements OnInit {
   }
 
 
+
+  //data functions
+  order() {
+    this.dataService.order(this.cars, this.orderByOption);
+  }
   getAllCars() {
     this.dataService.getAllCars().subscribe(result => {
       this.cars = result;
       this.order();
     });
   }
-  
   getFilteredCars() {
     if(this.searchValue !== "") {
       this.dataService.getFilteredCars(this.searchColumn, this.searchValue).subscribe(result => {
@@ -64,40 +82,61 @@ export class AdminComponent implements OnInit {
       this.getAllCars();
     }
   }
-
-  // createCar() {
-
-  // }
-
-
-  order() {
-    this.dataService.order(this.cars, this.orderByOption);
-  }
-
-  showAddCar() {
-    this.addCar = true;
-  }
-
   addNewCarFormSubmit() {
     var newCar = {
       id: 1,
-      year: this.newCarYear,
-      make: this.newCarMake,
-      model: this.newCarModel,
-      type: this.newCarType,
-      color: this.newCarColor
-    }
+      year: this.addCarForm.controls.newCarYear.value,
+      make: this.addCarForm.controls.newCarMake.value,
+      model: this.addCarForm.controls.newCarModel.value,
+      type: this.addCarForm.controls.newCarType.value,
+      color: this.addCarForm.controls.newCarColor.value
+    };
 
-    this.dataService.createCar(newCar).subscribe(result => {
-      this.getAllCars();
-    });
+    this.dataService.createCar(newCar).subscribe(result => this.getAllCars());
     this.closeAddCar();
   }
 
+
+  //add car functions
+  showAddCar() {
+    this.addCar = true;
+  }
   closeAddCar() {
     this.addCar = false;
   }
 
+
+
+  //update car functions
+  showUpdateCar(id: number) {
+    this.showUpdateCarId = id;
+
+    //set default values
+    var carToUpdate = this.cars.find(function(element) {
+      return element.id == id;
+    });
+    this.updateCarForm.controls.updateYear.setValue(carToUpdate.year);
+    this.updateCarForm.controls.updateMake.setValue(carToUpdate.make);
+    this.updateCarForm.controls.updateModel.setValue(carToUpdate.model);
+    this.updateCarForm.controls.updateType.setValue(carToUpdate.type);
+    this.updateCarForm.controls.updateColor.setValue(carToUpdate.color);
+  }
+  updateCar(id) {
+    var updateCar = {
+      id: id,
+      year: this.updateCarForm.controls.updateYear.value,
+      make: this.updateCarForm.controls.updateMake.value,
+      model: this.updateCarForm.controls.updateModel.value,
+      type: this.updateCarForm.controls.updateType.value,
+      color: this.updateCarForm.controls.updateColor.value
+    };
+
+    this.dataService.updateCar(updateCar).subscribe(result => this.getAllCars());
+    this.closeUpdateCar();
+  }
+  closeUpdateCar() {
+    this.showUpdateCarId = -1;
+  }
 }
 
 

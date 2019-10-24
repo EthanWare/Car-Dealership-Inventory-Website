@@ -12,25 +12,28 @@ import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 })
 export class DataService {
   constructor(private http: HttpClient, private messageService: MessageService) { }
-  AdminUrl = "http://localhost:8082/";
-  UserUrl = "http://localhost:8083/";
+  adminUrl = "http://localhost:8082/";
+  userUrl = "http://localhost:8083/";
 
 
   getAllCars(): Observable<Car[]> {
-    return this.http.get<Car[]>(this.AdminUrl + "cars/read").pipe(
+    return this.http.get<Car[]>(this.adminUrl + "cars/read").pipe(
       catchError(this.handleError<Car[]>('getAllCars',[]))
     );
   }
 
   getFilteredCars(column: string, searchValue: string): Observable<Car[]> {
-    return this.http.get<Car[]>(this.AdminUrl + "cars/read/" + column + "/" + searchValue);
+    return this.http.get<Car[]>(this.adminUrl + "cars/read/" + column + "/" + searchValue);
   }
 
   createCar(car: Car): Observable<string> {
-    return this.http.post<string>(this.AdminUrl + "cars/create", car);
+    return this.http.post<string>(this.adminUrl + "cars/create", car);
   }
 
-
+  updateCar(car: Car): Observable<string> {
+    console.log(car);
+    return this.http.put<string>(this.adminUrl + "cars/update", car);
+  }
 
 
 

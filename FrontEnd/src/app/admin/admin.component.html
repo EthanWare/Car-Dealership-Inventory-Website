@@ -8,7 +8,7 @@
 </label>
 
 <label>Search
-    <input type="text" [(ngModel)]="searchValue" (change)="getFilteredCars()">
+    <input type="text" [(ngModel)]="searchValue" (keyup)="getFilteredCars()">
 </label>
 
 <label>Order By
@@ -22,17 +22,18 @@
 <!-- <nav class="addCar"><a routerLink="/addCar">Add Car</a></nav> -->
 
 <button (click)="showAddCar()">Add Car</button>
-<form *ngIf="addCar === true" (ngSubmit)="addNewCarFormSubmit()"><table>
+<form *ngIf="addCar === true" [formGroup]="addCarForm" (ngSubmit)="addNewCarFormSubmit()"><table>
     <tr>
-        <td>Year <input class="createCar" type="text" [(ngModel)]="newCarYear" name="newCarYear"></td>
-        <td>Make <input class="createCar" type="text" [(ngModel)]="newCarMake" name="newCarMake"></td>
-        <td>Model <input class="createCar" type="text" [(ngModel)]="newCarModel" name="newCarModel"></td>
-        <td>Type <input class="createCar" type="text" [(ngModel)]="newCarType" name="newCarType"></td>
-        <td>Color <input class="createCar" type="text" [(ngModel)]="newCarColor" name="newCarColor"></td>
-        <td><input type=submit value="Add Car"> <input type=button value="Close" (click)=closeAddCar()></td>
+        <td>Year <input class="createCar" type="text" formControlName="newCarYear"></td>
+        <td>Make <input class="createCar" type="text" formControlName="newCarMake"></td>
+        <td>Model <input class="createCar" type="text" formControlName="newCarModel"></td>
+        <td>Type <input class="createCar" type="text" formControlName="newCarType"></td>
+        <td>Color <input class="createCar" type="text" formControlName="newCarColor"></td>
+        <td><input type="submit" value="Add Car"> <input type="button" value="Close" (click)="closeAddCar()"></td>
     </tr>
 </table></form>
 
+<form [formGroup]="updateCarForm">
 <table border="1">
     <tr>
         <th>Year</th>
@@ -42,15 +43,32 @@
         <th>Color</th>
     </tr>
 
-    <tr *ngFor="let car of cars">
-        <td>{{car.year}}</td>
-        <td>{{car.make}}</td>
-        <td>{{car.model}}</td>
-        <td>{{car.type}}</td>
-        <td>{{car.color}}</td>
-        <nav class="update"><a routerLink="/update">Update</a></nav>
-    </tr>
+    <ng-container *ngFor="let car of cars">
+        
+        <tr *ngIf="showUpdateCarId !== car.id; else updateCarTemplate">
+            <td>{{car.year}}</td>
+            <td>{{car.make}}</td>
+            <td>{{car.model}}</td>
+            <td>{{car.type}}</td>
+            <td>{{car.color}}</td>
+            <input type="button" value="Update" class="updateButton" (click)="showUpdateCar(car.id)">
+        </tr>
+
+        <ng-template #updateCarTemplate>
+        <tr>
+            <td><input type="text" class="updateCar" formControlName="updateYear" value="{{car.year}}" ></td>
+            <td><input type="text" class="updateCar" formControlName="updateMake" value="{{car.make}}"></td>
+            <td><input type="text" class="updateCar" formControlName="updateModel" value="{{car.model}}"></td>
+            <td><input type="text" class="updateCar" formControlName="updateType" value="{{car.type}}"></td>
+            <td><input type="text" class="updateCar" formControlName="updateColor" value="{{car.color}}"></td>
+            <input type="button" value="Confirm" (click)="updateCar(car.id)">
+            <input type="reset" value="Cancel" (click)="closeUpdateCar()">
+        </tr>
+        </ng-template>
+
+    </ng-container>
 </table>
+</form>
 
 
 

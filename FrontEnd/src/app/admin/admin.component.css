@@ -9,6 +9,10 @@
     width:80px;
 }
 
-.update {
+.updateCar {
+    width:80px;
+}
+
+.updateButton {
     padding: 2px 5px;
 }
