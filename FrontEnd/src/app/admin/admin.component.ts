@@ -78,14 +78,14 @@ export class AdminComponent implements OnInit {
     this.order();
   }
   getAllCars() {
-    this.dataService.getAllCars().subscribe(result => {
+    this.dataService.adminGetAllCars().subscribe(result => {
       this.cars = result;
       this.order();
     });
   }
   getFilteredCars() {
     if(this.searchValue !== "") {
-      this.dataService.getFilteredCars(this.searchColumn, this.searchValue).subscribe(result => {
+      this.dataService.adminGetFilteredCars(this.searchColumn, this.searchValue).subscribe(result => {
         this.cars = result;
         this.order();
       });
@@ -104,11 +104,11 @@ export class AdminComponent implements OnInit {
       color: this.addCarForm.controls.newCarColor.value
     };
 
-    this.dataService.createCar(newCar).subscribe(result => this.getAllCars());
+    this.dataService.adminCreateCar(newCar).subscribe(result => this.getAllCars());
     this.closeAddCar();
   }
   deleteCar(id: number) {
-    this.dataService.deleteCar(id).subscribe(result => this.getAllCars());
+    this.dataService.adminDeleteCar(id).subscribe(result => this.getAllCars());
   }
 
 
@@ -146,58 +146,10 @@ export class AdminComponent implements OnInit {
       color: this.updateCarForm.controls.updateColor.value
     };
 
-    this.dataService.updateCar(updateCar).subscribe(result => this.getAllCars());
+    this.dataService.adminUpdateCar(updateCar).subscribe(result => this.getAllCars());
     this.closeUpdateCar();
   }
   closeUpdateCar() {
     this.showUpdateCarId = -1;
   }
 }
-
-
-
-
-
-
-
-// searchColumnByValue() {
-//   var tempCars: Car[];
-//   switch(this.searchColumn) {
-//     case "Year":
-//       this.cars.forEach(car => {
-//         if(car.year.toString().search(this.searchColumn) != -1){
-//           tempCars.push(car);
-//         }
-//       });
-//       break;
-//     case "Make":
-//         this.cars.forEach(car => {
-//           if(car.make.search(this.searchColumn) != -1){
-//             tempCars.push(car);
-//           }
-//         });
-//       break;
-//     case "Model":
-//         this.cars.forEach(car => {
-//           if(car.model.search(this.searchColumn) != -1){
-//             tempCars.push(car);
-//           }
-//         });
-//       break;
-//     case "Type":
-//         this.cars.forEach(car => {
-//           if(car.type.search(this.searchColumn) != -1){
-//             tempCars.push(car);
-//           }
-//         });
-//       break;
-//     case "Color":
-//         this.cars.forEach(car => {
-//           if(car.color.search(this.searchColumn) != -1){
-//             tempCars.push(car);
-//           }
-//         });
-//       break;
-//   }
-//   this.cars = tempCars;
-// }

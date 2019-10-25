@@ -1,1 +1,43 @@
-<p>user works!</p>
+<h2>User</h2>
+<label>Search Column
+    <select [(ngModel)]="searchColumn">
+        <option *ngFor="let o of columnOptions">
+            {{o.name}}
+        </option>
+    </select>
+</label>
+
+<label>Search
+    <input type="text" [(ngModel)]="searchValue" (keyup)="getFilteredCars()">
+</label>
+
+<label>Order By
+    <select [(ngModel)]="orderByOption" (change)="order()">
+        <option *ngFor="let o of columnOptions">
+            {{o.name}}
+        </option>
+    </select>
+</label>
+
+<label>Reverse Order:
+    <input type="checkbox" [(ngModel)]="reverseOrder" (click)="reverseOrderCheckbox()">
+</label>
+
+
+<table border="1">
+    <tr>
+        <th>Year</th>
+        <th>Make</th>
+        <th>Model</th>
+        <th>Type</th>
+        <th>Color</th>
+    </tr>
+
+    <tr *ngFor="let car of cars">
+        <td>{{car.year}}</td>
+        <td>{{car.make}}</td>
+        <td>{{car.model}}</td>
+        <td>{{car.type}}</td>
+        <td>{{car.color}}</td>
+    </tr>
+</table>

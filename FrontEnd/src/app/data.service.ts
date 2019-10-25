@@ -5,7 +5,6 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 import { Car } from './Car';
 import { MessageService } from './message.service'
-import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 
 @Injectable({
   providedIn: 'root'
@@ -14,27 +13,46 @@ export class DataService {
   constructor(private http: HttpClient, private messageService: MessageService) { }
   adminUrl = "http://localhost:8082/";
   userUrl = "http://localhost:8083/";
+  
 
-
-  getAllCars(): Observable<Car[]> {
+  
+  //Admin data access methods
+  adminGetAllCars(): Observable<Car[]> {
     return this.http.get<Car[]>(this.adminUrl + "cars/read").pipe(
       catchError(this.handleError<Car[]>('getAllCars',[]))
     );
   }
-
-  getFilteredCars(column: string, searchValue: string): Observable<Car[]> {
+  adminGetFilteredCars(column: string, searchValue: string): Observable<Car[]> {
     return this.http.get<Car[]>(this.adminUrl + "cars/read/" + column + "/" + searchValue);
   }
-
-  createCar(car: Car): Observable<string> {
+  adminCreateCar(car: Car): Observable<string> {
     return this.http.post<string>(this.adminUrl + "cars/create", car);
   }
-
-  updateCar(car: Car): Observable<string> {
+  adminUpdateCar(car: Car): Observable<string> {
     return this.http.put<string>(this.adminUrl + "cars/update", car);
   }
-  deleteCar(id: number): Observable<string> {
+  adminDeleteCar(id: number): Observable<string> {
     return this.http.delete<string>(this.adminUrl + "cars/delete/" + id)
+  }
+
+
+  //User data access methods
+  userGetAllCars(): Observable<Car[]> {
+    return this.http.get<Car[]>(this.userUrl + "cars/read").pipe(
+      catchError(this.handleError<Car[]>('getAllCars',[]))
+    );
+  }
+  userGetFilteredCars(column: string, searchValue: string): Observable<Car[]> {
+    return this.http.get<Car[]>(this.userUrl + "cars/read/" + column + "/" + searchValue);
+  }
+  userCreateCar(car: Car): Observable<string> {
+    return this.http.post<string>(this.userUrl + "cars/create", car);
+  }
+  userUpdateCar(car: Car): Observable<string> {
+    return this.http.put<string>(this.userUrl + "cars/update", car);
+  }
+  userDeleteCar(id: number): Observable<string> {
+    return this.http.delete<string>(this.userUrl + "cars/delete/" + id)
   }
 
 

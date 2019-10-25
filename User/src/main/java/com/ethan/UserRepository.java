@@ -8,18 +8,18 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<Car, Integer> {
 
-    @Query(value="Select * From Car c where c.year = :filter", nativeQuery = true)
+    @Query(value="Select * From Car c where c.year Like %:filter%", nativeQuery = true)
     public List<Car> findByYear(@Param("filter") String filter);
 
-    @Query(value="Select * From Car where make = :filter", nativeQuery = true)
+    @Query(value="Select * From Car where make Like %:filter%", nativeQuery = true)
     public List<Car> findByMake(@Param("filter") String filter);
 
-    @Query(value="Select * From Car where model = :filter", nativeQuery = true)
+    @Query(value="Select * From Car where model Like %:filter%", nativeQuery = true)
     public List<Car> findByModel(@Param("filter") String filter);
 
-    @Query(value="Select * From Car where type = :filter", nativeQuery = true)
+    @Query(value="Select * From Car where type Like %:filter%", nativeQuery = true)
     public List<Car> findByType(@Param("filter") String filter);
 
-    @Query(value="Select * From Car where color = :filter", nativeQuery = true)
+    @Query(value="Select * From Car where color Like %:filter%", nativeQuery = true)
     public List<Car> findByColor(@Param("filter") String filter);
 }
