@@ -31,14 +31,20 @@ export class DataService {
   }
 
   updateCar(car: Car): Observable<string> {
-    console.log(car);
     return this.http.put<string>(this.adminUrl + "cars/update", car);
+  }
+  deleteCar(id: number): Observable<string> {
+    return this.http.delete<string>(this.adminUrl + "cars/delete/" + id)
   }
 
 
-
+  //error handling
   private handleError<T>(method = 'method', result?: T) {
     return (error: any): Observable<T> => {
+
+      //console.error("Error: " + error.status + " - " + error.message);
+      //this.messageService.set("Error: " + error.status + " - " + error.message);
+
       switch(error.status) {
         case 204:
           console.error("204 - No_Content, Error Message; " + error.message);
@@ -51,7 +57,7 @@ export class DataService {
   }
 
 
-
+  //order methods
   order(cars: Car[], orderByOption: string) {
     switch(orderByOption){
       case "Year":

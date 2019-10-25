@@ -107,6 +107,9 @@ export class AdminComponent implements OnInit {
     this.dataService.createCar(newCar).subscribe(result => this.getAllCars());
     this.closeAddCar();
   }
+  deleteCar(id: number) {
+    this.dataService.deleteCar(id).subscribe(result => this.getAllCars());
+  }
 
 
   //add car functions

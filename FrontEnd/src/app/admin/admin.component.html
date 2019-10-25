@@ -54,18 +54,19 @@
             <td>{{car.model}}</td>
             <td>{{car.type}}</td>
             <td>{{car.color}}</td>
-            <input type="button" value="Update" class="updateButton" (click)="showUpdateCar(car.id)">
+            <input type="button" value="Update" class="updateButtons" (click)="showUpdateCar(car.id)">
         </tr>
 
         <ng-template #updateCarTemplate>
         <tr>
-            <td><input type="text" class="updateCar" formControlName="updateYear" value="{{car.year}}" ></td>
-            <td><input type="text" class="updateCar" formControlName="updateMake" value="{{car.make}}"></td>
-            <td><input type="text" class="updateCar" formControlName="updateModel" value="{{car.model}}"></td>
-            <td><input type="text" class="updateCar" formControlName="updateType" value="{{car.type}}"></td>
-            <td><input type="text" class="updateCar" formControlName="updateColor" value="{{car.color}}"></td>
-            <input type="button" value="Confirm" (click)="updateCar(car.id)">
-            <input type="reset" value="Cancel" (click)="closeUpdateCar()">
+            <td><input type="text" class="updateCarText" formControlName="updateYear" value="{{car.year}}" ></td>
+            <td><input type="text" class="updateCarText" formControlName="updateMake" value="{{car.make}}"></td>
+            <td><input type="text" class="updateCarText" formControlName="updateModel" value="{{car.model}}"></td>
+            <td><input type="text" class="updateCarText" formControlName="updateType" value="{{car.type}}"></td>
+            <td><input type="text" class="updateCarText" formControlName="updateColor" value="{{car.color}}"></td>
+            <input type="button" value="Confirm" class="updateButtons" (click)="updateCar(car.id)">
+            <input type="reset" value="Cancel" class="updateButtons" (click)="closeUpdateCar()">
+            <input type="button" value="Delete" class="updateButtons" (click)="deleteCar(car.id)">
         </tr>
         </ng-template>
 

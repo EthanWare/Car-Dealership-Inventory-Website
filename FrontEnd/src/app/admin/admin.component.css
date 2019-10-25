@@ -9,10 +9,15 @@
     width:80px;
 }
 
-.updateCar {
+.updateCarText {
     width:80px;
+    /* border: 0; */
+    padding: 2px 5px;
+    margin: 5px 2px;
+    text-align: center;
 }
 
-.updateButton {
+.updateButtons {
     padding: 2px 5px;
+    text-align: center;
 }
