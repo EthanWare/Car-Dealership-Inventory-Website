@@ -74,7 +74,4 @@ export class UserComponent implements OnInit {
       this.getAllCars();
     }
   }
-  deleteCar(id: number) {
-    this.dataService.userDeleteCar(id).subscribe(result => this.getAllCars());
-  }
 }

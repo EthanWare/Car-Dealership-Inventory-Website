@@ -9,6 +9,8 @@ export class MessageService {
 
   set(message: string){
     this.message = message;
+
+    setTimeout(()=>this.clear(), 5000);
   }
 
   clear(){

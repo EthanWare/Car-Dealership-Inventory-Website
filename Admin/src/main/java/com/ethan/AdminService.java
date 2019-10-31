@@ -57,7 +57,7 @@ public class AdminService {
                 case "model": repo.findByModel(filter).forEach(cars::add); break;
                 case "type": repo.findByType(filter).forEach(cars::add); break;
                 case "color": repo.findByColor(filter).forEach(cars::add); break;
-                default: return new ResponseEntity<String>("{\"response\": \"Wrong column name\"}", HttpStatus.NO_CONTENT);
+                default: return new ResponseEntity<String>("{\"response\": \"Wrong column name\"}", HttpStatus.NOT_ACCEPTABLE);
             }
             return new ResponseEntity<List<Car>>(cars, HttpStatus.OK);
         }
@@ -70,7 +70,7 @@ public class AdminService {
             return new ResponseEntity<String>("{\"response\": \"Column value empty\"}", HttpStatus.NOT_ACCEPTABLE);
         //check if the car exists in the database
         if(!repo.existsById(car.getId()))
-            return new ResponseEntity<String>("{\"response\": \"Car does not exist\"}", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("{\"response\": \"Car does not exist\"}", HttpStatus.NO_CONTENT);
         
         repo.save(car);
         return new ResponseEntity<String>("{\"response\": \"Car update successful\"}", HttpStatus.OK);
@@ -88,7 +88,7 @@ public class AdminService {
     public ResponseEntity<String> deleteCar(int id){
         //check if the car exists in the database
         if(!repo.existsById(id))
-            return new ResponseEntity<String>("{\"response\": \"Car does not exist\"}", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("{\"response\": \"Car does not exist\"}", HttpStatus.NO_CONTENT);
         
         repo.deleteById(id);
         return new ResponseEntity<String>("{\"response\": \"Car delete successful\"}", HttpStatus.OK);

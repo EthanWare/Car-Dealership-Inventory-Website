@@ -35,7 +35,7 @@ public class UserService {
                 case "model": repo.findByModel(filter).forEach(cars::add); break;
                 case "type": repo.findByType(filter).forEach(cars::add); break;
                 case "color": repo.findByColor(filter).forEach(cars::add); break;
-                default: return new ResponseEntity<String>("{\"response\": \"Wrong column name\"}", HttpStatus.NO_CONTENT);
+                default: return new ResponseEntity<String>("{\"response\": \"Wrong column name\"}", HttpStatus.NOT_ACCEPTABLE);
             }
             return new ResponseEntity<List<Car>>(cars, HttpStatus.OK);
         }

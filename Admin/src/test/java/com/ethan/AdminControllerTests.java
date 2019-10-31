@@ -1,21 +1,24 @@
 package com.ethan;
 
-import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.test.context.junit4.SpringRunner;
-
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -68,8 +71,7 @@ public class AdminControllerTests {
 			.andExpect(status().isOk());
 
 		mock.perform(get("/cars/read"))
-			.andExpect(status().isNoContent())
-			.andExpect(content().string("No cars exist"));
+			.andExpect(status().isNoContent());
 	}
 	
 	@Transactional
@@ -130,7 +132,7 @@ public class AdminControllerTests {
 	public void givenUpdateCar_whenCarDoesNotExistInDatabaseAndCarHasNoNullFields_thenUpdateCarFails() throws Exception {
 		mock.perform(put("/cars/update").contentType(MediaType.APPLICATION_JSON_UTF8)
 			.content(OBJECT_MAPPER.writeValueAsString(new Car(200, 1111, "Dodge", "Caaa", "Coupe", "aitoi448sdfnd"))))
-			.andExpect(status().isNotFound());
+			.andExpect(status().isNoContent());
 	}
 
 	@Transactional
@@ -156,7 +158,7 @@ public class AdminControllerTests {
 			.andExpect(status().isOk());
 
 		mock.perform(delete("/cars/delete/3"))
-			.andExpect(status().isNotFound());
+			.andExpect(status().isNoContent());
 	}
 
 	@Transactional
