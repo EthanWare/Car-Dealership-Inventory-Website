@@ -54,12 +54,16 @@ export class DataService {
 
   //User data access methods
   userGetAllCars(): Observable<Car[]> {
-    return this.http.get<Car[]>(this.userUrl + "cars/read").pipe(
-      catchError(this.handleError<Car[]>("getAllCars",[]))
-    );
+    return this.http.get<Car[]>(this.userUrl + "cars/read")
+      .pipe(
+        catchError(this.handleError<Car[]>("userGetAllCars"))
+      );
   }
   userGetFilteredCars(column: string, searchValue: string): Observable<Car[]> {
-    return this.http.get<Car[]>(this.userUrl + "cars/read/" + column + "/" + searchValue);
+    return this.http.get<Car[]>(this.userUrl + "cars/read/" + column + "/" + searchValue)
+      .pipe(
+        catchError(this.handleError<Car[]>("userGetFilteredCars"))
+      );
   }
 
 
@@ -96,6 +100,16 @@ export class DataService {
         case "adminDeleteCar":
           if(error.status === 204)
             errorMessage = "Error: Car does not exist";
+          break;
+        case "userGetAllCars":
+          if(error.status === 204)
+            errorMessage = "Error: No cars exist";
+          break;
+        case "userGetFilteredCars":
+          if(error.status === 204)
+            errorMessage = "Error: No cars exist";
+          else if(error.status === 406)
+            errorMessage = "Error: Wrong column name";
           break;
       }
       this.messageService.set(errorMessage);
