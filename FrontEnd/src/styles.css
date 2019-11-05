@@ -1,32 +1,56 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* * {
+    color: white;
+    border: 3px solid green;
+} */
 
-/* * {border: 3px solid green;} */
+body {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    width: auto;
+    padding: 10px;
+    text-align: center;
 
-h2, label, body, form {
+    /* border: 3px solid green;
+    background: rgb(13,13,161);
+    background: linear-gradient(180deg, rgba(13,13,161,1) 0%, rgba(43,192,222,1) 100%); */
+}
+
+html {
+    height: 100%;
+}
+
+h2, label, form {
     margin: 20px auto;
     width: auto;
     padding: 10px;
     text-align: center;
-  }
+}
 
 table {
+    border: 1px solid rgb(153, 153, 153);
+    border-collapse: collapse;
+
     margin: 20px auto;
     width: auto;
     text-align: center;
+    background: white;
+}
+
+th, td {
+    border-bottom: 1px solid rgb(153, 153, 153);
+    border-right: 1px solid rgb(153, 153, 153);
 }
 
 th {
     margin: 20px auto;
     width: auto;
-    padding: 10px 20px;
+    padding: 15px 50px;
     text-align: center;
 }
 
 td {
-    padding: 2px 5px;
+    padding: 5px 10px;
 }
 
 a {
