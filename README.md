@@ -12,16 +12,14 @@ Step 2: Install Docker
 	sudo apt-get update
 	sudo apt-get install docker.io
 
-Step 3: Build Docker Image
-	# cd to the Spring-Boot-API-Microservices folder
-	sudo docker build -t car-dealership .
+Step 3: CD to repository folder
 
-Step 4: Run Dockerfile
-	sudo docker run -p 4200:4200 car-dealership
+Step 4: Start docker damean
+	sudo dockerd
 
-Access website at:
-http://172.17.0.2:4200
-or
-http://localhost:4200
+Step 5: Run docker compose file
+	sudo docker-compose up
+
+Step 6: Open website in browser at http://localhost:4200
 
 */
