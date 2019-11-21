@@ -6,19 +6,19 @@ This full stack web application used a Postgres SQL server and Spring Boot frame
 How to use: (Commands assume ubuntu)
 
 Step 1: Clone Repository
-	git clone https://github.com/EthanWare/Car-Dealership-Inventory-Website.git
+git clone https://github.com/EthanWare/Car-Dealership-Inventory-Website.git
 
 Step 2: Install Docker
-	sudo apt-get update
-	sudo apt-get install docker.io
+sudo apt-get update
+sudo apt-get install docker.io
 
 Step 3: CD to repository folder
 
 Step 4: Start docker damean
-	sudo dockerd
+sudo dockerd
 
 Step 5: Run docker compose file
-	sudo docker-compose up
+sudo docker-compose up
 
 Step 6: Open website in browser at http://localhost:4200
 
