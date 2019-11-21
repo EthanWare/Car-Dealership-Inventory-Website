@@ -1,0 +1,32 @@
+version: '3'
+services:
+  authenticate:
+    build:
+      context: ./Authentication
+    ports:
+    - "8081:8081"
+
+  admin:
+    build:
+      context: ./Admin
+    ports:
+    - "8082:8082"
+
+  user:
+    build:
+      context: ./User
+    ports:
+    - "8083:8083"
+    
+  front_end:
+    build:
+      context: ./FrontEnd
+    ports: 
+    - "4200:4200"
+
+  # mydb:
+  # image: postgres
+  # volumes:
+  # - data:/var/lib/postgresql/data
+  # ports:
+  # - 5432:5432
