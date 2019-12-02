@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   authenticate:
     build:
@@ -24,9 +25,13 @@ services:
     ports: 
     - "4200:4200"
 
-  # mydb:
-  # image: postgres
-  # volumes:
-  # - data:/var/lib/postgresql/data
-  # ports:
-  # - 5432:5432
+  db:
+    image: postgres:12.1-alpine
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: docker
+    ports:
+    - "5432:5432"
+    volumes:
+    - ./pgdata:/var/lib/postgresql/data
+    - ./init.sql:/docker-entrypoint-initdb.d/init.sql
