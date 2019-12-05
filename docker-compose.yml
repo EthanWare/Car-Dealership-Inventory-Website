@@ -1,37 +1,42 @@
 version: '3'
 
 services:
-  authenticate:
-    build:
-      context: ./Authentication
-    ports:
-    - "8081:8081"
-
-  admin:
-    build:
-      context: ./Admin
-    ports:
-    - "8082:8082"
-
-  user:
-    build:
-      context: ./User
-    ports:
-    - "8083:8083"
-    
-  front_end:
-    build:
-      context: ./FrontEnd
-    ports: 
-    - "4200:4200"
-
   db:
     image: postgres:12.1-alpine
+    container_name: db
     environment:
       POSTGRES_USER: docker
       POSTGRES_PASSWORD: docker
     ports:
-    - "5432:5432"
+      - "5432:5432"
     volumes:
-    - ./pgdata:/var/lib/postgresql/data
-    - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  authenticate:
+    container_name: authentication
+    build:
+      context: ./Authentication
+    ports:
+      - "8081:8081"
+
+  admin:
+    container_name: admin
+    build:
+      context: ./Admin
+    ports:
+      - "8082:8082"
+
+  user:
+    container_name: user
+    build:
+      context: ./User
+    ports:
+      - "8083:8083"
+    
+  front_end:
+    container_name: front_end
+    build:
+      context: ./FrontEnd
+    ports: 
+      - "4200:4200"

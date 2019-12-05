@@ -13,7 +13,6 @@ public class AuthenticationService {
     public int authenticate(User u) {
         ArrayList<User> users = new ArrayList<>();
         repo.findAll().forEach(users::add);
-        System.out.println("---------------------" + repo.findAll());
         for(User user: users){
             if(user.getUserName().equals(u.getUserName())) {
                 if(user.getPassword().equals(u.getPassword())) {

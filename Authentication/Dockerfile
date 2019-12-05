@@ -1,13 +1,8 @@
-# Start with ubuntu version 18.04, with postgres and maven
-# FROM ubuntu:18.04
-# FROM alpine:3.10
-# FROM postgres:12-alpine
+# Alpine OS with maven
 FROM maven:3.6-ibmjava-8-alpine
-# FROM maven:3.6-jdk-8
-# FROM node:12-alpine
 
 # check for updates
-RUN apk update
+# RUN apk update
 
 # load admin files
 WORKDIR /Authentication
